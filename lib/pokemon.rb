@@ -1,3 +1,5 @@
+require 'pry'
+
 class Pokemon
 
     attr_accessor :id, :name, :type, :db
@@ -19,6 +21,17 @@ def self.save(name, type, db)
     @id = db.execute("SELECT last_insert_rowid() FROM pokemon")[0][0]
 
 end
+
+def self.find(id, db)
+    sql = <<-SQL
+    SELECT * FROM pokemon WHERE id = ?
+    SQL
+     array = db.execute(sql, id)[0]
+     self.new(id: array[0], name: array[1], type: array[2], db: db)
+
+end
+
+
 
 
 
